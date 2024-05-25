@@ -1,6 +1,7 @@
 const db = require('../model/model')
 const axios = require('axios')
 const Contest = db.Contest;
+const Data = db.Data;
 exports.contestApi = async(req,res) => {
     try {
         const contests = await Contest.find().lean();
@@ -8,6 +9,16 @@ exports.contestApi = async(req,res) => {
     } catch (error) {
         console.error('Error retrieving contests:', error);
         res.status(500).send('Error retrieving contests');
+    }
+}
+
+exports.noticeApi = async(req,res) => {
+    try {
+        const data = await Data.find().lean();
+        res.json(data);
+    } catch (error) {
+        console.error('Error retrieving notice api:', error);
+        res.status(500).send('Error retrieving notice api');
     }
 }
 
