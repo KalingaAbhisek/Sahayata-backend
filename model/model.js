@@ -25,7 +25,7 @@ db.once('open', () => {
   console.log('Connected to MongoDB Atlas');
 });
 
-cron.schedule('* * * * *', async () => {
+cron.schedule('*/10 * * * *', async () => {
     try {
       const response = await axios.get(API_URL);
       const responseData = response.data.objects;
