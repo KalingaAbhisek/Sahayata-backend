@@ -3,16 +3,35 @@ const cron = require('node-cron');
 const axios = require('axios');
 const cheerio = require('cheerio');
 
+const convertUtcToIst = (utcDate) => {
+  const date = new Date(utcDate);
+  const offsetIST = 5.5 * 60 * 60 * 1000;
+  let istDate = new Date(date.getTime() + offsetIST);
+  istDate = istDate.toLocaleString("en-IN",{
+    timeZone: 'Asia/Kolkata',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: true,
+    weekday: 'short'
+  });
+  istDate = istDate.replace('am', 'AM').replace('pm', 'PM');
+  return istDate;
+}
+
 const contestSchema = new mongoose.Schema({
     event: String,
-    start: Date,
-    end: Date,
+    start: String,
+    end: String,
     host: String,
     resource: String,
     href: String,
   });
   
-const Contest = mongoose.model('Contest', contestSchema);
+const Contest = mongoose.model('Contest1', contestSchema);
 
 const dataSchema = new mongoose.Schema({
   title: String,
@@ -36,11 +55,17 @@ cron.schedule('*/2 * * * *', async () => {
     try {
       const response = await axios.get(API_URL);
       const responseData = response.data.objects;
-  
-       // Process the response and save it to MongoDB
+      const finalResponse = responseData.map((data)=>{
+        const startDate = convertUtcToIst(data.start);
+        const endDate = convertUtcToIst(data.end);
+        const obj = JSON.parse(JSON.stringify(data));
+        obj.start = startDate;
+        obj.end = endDate;
+        return obj;
+      })
       await Contest.deleteMany();
       console.log('Previous data for contest from MongoDB is deleted');
-      await Contest.insertMany(responseData);
+      await Contest.insertMany(finalResponse);
       console.log('API response for contest saved to MongoDB');
     } catch (error) {
       console.error('Error fetching and saving API response:', error);
