@@ -3,7 +3,7 @@ const cron = require('node-cron');
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-const convertUtcToIst = (utcDate) => {
+const convertUtcToIst = async (utcDate) => {
   const date = new Date(utcDate);
   const offsetIST = 5.5 * 60 * 60 * 1000;
   let istDate = new Date(date.getTime() + offsetIST);
@@ -55,10 +55,10 @@ cron.schedule('*/2 * * * *', async () => {
     try {
       const response = await axios.get(API_URL);
       const responseData = response.data.objects;
-      const finalResponse = responseData.map((data)=>{
-        const startDate = convertUtcToIst(data.start);
-        const endDate = convertUtcToIst(data.end);
-        const obj = JSON.parse(JSON.stringify(data));
+      const finalResponse = responseData.map(async (data)=>{
+        const startDate = await convertUtcToIst(data.start);
+        const endDate = await convertUtcToIst(data.end);
+        const obj = await JSON.parse(JSON.stringify(data));
         obj.start = startDate;
         obj.end = endDate;
         return obj;
