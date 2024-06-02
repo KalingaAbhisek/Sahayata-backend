@@ -57,8 +57,8 @@ cron.schedule('*/2 * * * *', async () => {
       const response = await axios.get(API_URL);
       const responseData = response.data.objects;
       const finalResponse = await responseData.map((data)=>{
-        const startDate = moment.utc(data.start).tz(`${moment.tz.guess(true)}`).format("dddd, MMMM Do YYYY, h:mm:ss a");
-        const endDate = moment.utc(data.end).tz(`${moment.tz.guess(true)}`).format("dddd, MMMM Do YYYY, h:mm:ss a");
+        const startDate = moment.utc(data.start).tz("Asia/Calcutta").format("dddd, MMMM Do YYYY, h:mm:ss a");
+        const endDate = moment.utc(data.end).tz("Asia/Calcutta").format("dddd, MMMM Do YYYY, h:mm:ss a");
         const obj = JSON.parse(JSON.stringify(data));
         obj.start = startDate;
         obj.end = endDate;
