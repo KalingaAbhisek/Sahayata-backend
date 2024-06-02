@@ -55,7 +55,7 @@ cron.schedule('*/2 * * * *', async () => {
     try {
       const response = await axios.get(API_URL);
       const responseData = response.data.objects;
-      const finalResponse = responseData.map(async (data)=>{
+      const finalResponse = await responseData.map(async (data)=>{
         const startDate = await convertUtcToIst(data.start);
         const endDate = await convertUtcToIst(data.end);
         const obj = await JSON.parse(JSON.stringify(data));
