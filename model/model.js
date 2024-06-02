@@ -1,9 +1,28 @@
 const mongoose = require('mongoose');
 const cron = require('node-cron');
 const axios = require('axios');
+const cheerio = require('cheerio');
+const moment = require('moment-timezone');
 
-// Connect to MongoDB
-// Define a Mongoose schema
+// const convertUtcToIst = async (utcDate) => {
+//   const date = new Date(utcDate);
+//   const offsetIST = 5.5 * 60 * 60 * 1000;
+//   let istDate = new Date(date.getTime() + offsetIST);
+//   istDate = istDate.toLocaleString("en-IN",{
+//     timeZone: 'Asia/Kolkata',
+//     year: 'numeric',
+//     month: '2-digit',
+//     day: '2-digit',
+//     hour: '2-digit',
+//     minute: '2-digit',
+//     second: '2-digit',
+//     hour12: true,
+//     weekday: 'short'
+//   });
+//   istDate = istDate.replace('am', 'AM').replace('pm', 'PM');
+//   return istDate;
+// }
+
 const contestSchema = new mongoose.Schema({
     event: String,
     start: Date,
@@ -29,8 +48,14 @@ cron.schedule('*/10 * * * *', async () => {
     try {
       const response = await axios.get(API_URL);
       const responseData = response.data.objects;
-  
-       // Process the response and save it to MongoDB
+      const finalResponse = await responseData.map((data)=>{
+        const startDate = moment.utc(data.start).tz(`${moment.tz.guess(true)}`).format("dddd, MMMM Do YYYY, h:mm:ss a");
+        const endDate = moment.utc(data.end).tz(`${moment.tz.guess(true)}`).format("dddd, MMMM Do YYYY, h:mm:ss a");
+        const obj = JSON.parse(JSON.stringify(data));
+        obj.start = startDate;
+        obj.end = endDate;
+        return obj;
+      })
       await Contest.deleteMany();
       console.log('Previous data from MongoDB is deleted');
       await Contest.insertMany(responseData);
