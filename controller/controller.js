@@ -1,6 +1,7 @@
 const db = require('../model/model')
 const axios = require('axios')
 const Contest = db.Contest;
+const dsaData = require('../dsa.json')
 const Data = db.Data;
 exports.contestApi = async(req,res) => {
     try {
@@ -24,8 +25,10 @@ exports.noticeApi = async(req,res) => {
 
 exports.youtubeApi = async(req, res) => {
     try{
-        console.log(req.body)
-        const {playlistId}= req.body;
+        // console.log(req.body)
+        // const {playlistId}= req.body;
+        const topic = req.params['topic'];
+        const playlistId = dsaData[topic];
         let allVideos = [];
         let nextPageToken = null;
         do{

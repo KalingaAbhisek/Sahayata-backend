@@ -1,3 +1,17 @@
 {
-    "array": 
+    "introduction": "PLFgERn5C5lYxaNO5Lf3gAM2aepexJ47I3",
+    "maths": "PLgUwDviBIf0oFON1SRGcMqMIhiZ4EXx_F",
+    "recursion": "PLgUwDviBIf0rGlzIn_7rsaR2FQ5e6ZOL9",
+    "arrays": "PLgUwDviBIf0rENwdL0nEH0uGom9no0nyB",
+    "linked-list": "PLgUwDviBIf0rAuz8tVcM0AymmhTRsfaLU",
+    "binary-search": "PLgUwDviBIf0pMFMWuuvDNMAkoQFi-h0ZF",
+    "two-pointer": "PLgUwDviBIf0q7vrFA_HEWcqRqMpCXzYAL",
+    "bit-manipulation": "PLgUwDviBIf0rnqh8QsJaHyIX7KUiaPUv7",
+    "tries": "PLgUwDviBIf0pcIDCZnxhv0LkHf5KzG9zp",
+    "stack-and-queues": "PLFgERn5C5lYw17lILz8EpK_E8GJljOfvW",
+    "heap": "PL_z_8CaSLPWdtY9W22VjnPxG30CXNZpI9",
+    "greedy": "PLgUwDviBIf0rF1w2Koyh78zafB0cz7tea",
+    "trees": "PLgUwDviBIf0q8Hkd7bK2Bpryj2xVJk8Vk",
+    "dynamic-programming": "PLgUwDviBIf0qUlt5H_kiKYaNSqJ81PMMY",
+    "graph": "PLgUwDviBIf0oE3gA41TKO2H5bHpPd7fzn"
 }
